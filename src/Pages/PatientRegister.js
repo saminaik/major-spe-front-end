@@ -18,6 +18,7 @@ function PatientRegistration() {
     try {
       const response = await axios.post('http://localhost:8081/api/v1/auth/patient/register', formData);
       console.log(response.data);
+     
     } catch (error) {
       console.error(error);
     }
@@ -64,8 +65,8 @@ function PatientRegistration() {
         <Form.Label>Address:</Form.Label>
         <Form.Control type="text" name="address" value={formData.address} onChange={handleChange} />
       </Form.Group>
-
-      <Button variant="primary" type="submit">Register</Button>
+    
+      <Button variant="primary" type="submit" >Register</Button>
     </Form></div>
   );
 }

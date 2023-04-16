@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { Form, Button } from 'react-bootstrap';
+import { useLocation, navigate } from 'react-router-dom';
 
 export default function PatientBookAppointment() {
+  const location = useLocation();
+  console.log("hello");
+  console.log(location.state.id.id.id);
+  const patientId = location.state;
 
+  const token=location.state.id.id.token;
+  console.log(token)
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -11,11 +18,15 @@ export default function PatientBookAppointment() {
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get("http://localhost:8080/api/admin/doctors")
-    const updatedUsers = result.data.map(user => ({ ...user, selectedDate: '' }));
-    setUsers(updatedUsers);
-  }
-
+    try {
+      const result = await axios.get("http://localhost:8081/api/admin/doctors", { headers: {"Authorization" : `Bearer ${location.state.id.id.token}`} });
+      const updatedUsers = result.data.map(user => ({ ...user, selectedDate: '' }));
+      setUsers(updatedUsers);
+    } catch (error) {
+   console.error(error);
+    }
+  };
+  
   const handleChange = (event, index) => {
     const { name, value } = event.target;
     const updatedUsers = [...users];
@@ -23,25 +34,32 @@ export default function PatientBookAppointment() {
     setUsers(updatedUsers);
   };
 
-  const handleAppointmentBooking = (user) => {
+  const handleAppointmentBooking = (user, patientId) => {
     // Check if the selectedDate is not empty
     if (!user.selectedDate) {
       return;
     }
-  
+    console.log(location.state);
     // Send a POST request to the API with the required data
-    axios.post('http://localhost:8080/api/book', {
+    axios.post('http://localhost:8081/api/patients/appointments', {
       doctorId: user.id,
-      patientId: 1, // Replace 1 with the actual patient ID
+      patient_id: location.state.id.id.id,
       date: user.selectedDate
-    })
+  }, {
+      headers: {"Authorization" : `Bearer ${location.state.id.id.token}`}
+  })
+  
     .then(response => {
       console.log(response.data); // Handle the response from the API as required
     })
     .catch(error => {
+      console.log(user.selectedDate);
+      console.log(user.id);
       console.error(error); // Handle any errors that occurred during the request
     });
   }
+
+ 
 
   return (
     <div className='container'>

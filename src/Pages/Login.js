@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import axios from "axios";
 
@@ -7,31 +7,27 @@ import axios from "axios";
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPwd] = useState('')
+
+    const navigate = useNavigate();
     
 
 
     const handleLogin = async() => {
-              
         await axios.post('http://localhost:8081/api/v1/auth/patient/authenticate', {
             email: email,
             password: password
         })
             .then(function (response) {
-               console.log(response.data.patient);
-                console.log(response.status);
+                //console.log(response.data);
+            //     console.log(response.status);
                 if(response.status===200)
                 { 
-                    
-                    <Link
-                    to={{
-                      pathname: "/patientDashboard",
-                      state: response.data // your data array of objects
-                    }}
-                  />
-                  window.sessionStorage.setItem('isLogged_in','true');
-                    window.sessionStorage.setItem('id',response.data.id);
-                    window.location.reload(true);
-                }
+                    // window.sessionStorage.setItem('isLogged_in','true');
+                    // window.sessionStorage.setItem('id',response.data.id);
+                   // window.location.reload(true);
+                  // const  id=5;
+                 // console.log(response.data.role);
+                   navigate('/patientDashboard', { state: {id:response.data} });                }
                 else if(response.status === 403){
               
                     return Swal.fire(
@@ -47,7 +43,6 @@ export default function Login() {
                     'Please enter valid credentials',
                     'error'
                 );
-                console.log(error);
                 
             });
     }
@@ -62,7 +57,7 @@ export default function Login() {
                   <div className="card-body p-md-5 mx-md-4">
 
                     <div className="text-center">
-                      <img src="./Images/photo1.jpeg" style={{ width: "185px" }} />
+                      <img src="./Images/photo1.jpeg" alt="" style={{ width: "185px" }} />
                       <h4 className="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
                     </div>
 
