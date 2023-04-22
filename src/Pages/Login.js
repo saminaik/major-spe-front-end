@@ -26,8 +26,21 @@ export default function Login() {
                     // window.sessionStorage.setItem('id',response.data.id);
                    // window.location.reload(true);
                   // const  id=5;
-                 // console.log(response.data.role);
-                   navigate('/patientDashboard', { state: {id:response.data} });                }
+                  console.log("heel");
+                 console.log(response.data.role);
+                   if(response.data.role==="PATIENT")
+                {   
+                     navigate('/patientDashboard', { state: {id:response.data} });  
+                      
+                    }
+                    else if(response.data.role==="DOCTOR" ){
+                    navigate('/doctorDashboard', { state: {id:response.data} });
+                    }
+                    else if(response.data.role==="ADMIN"){
+                        navigate('/adminDashboard', { state: {id:response.data} });
+                    }
+
+              }
                 else if(response.status === 403){
               
                     return Swal.fire(
@@ -58,7 +71,7 @@ export default function Login() {
 
                     <div className="text-center">
                       <img src="./Images/photo1.jpeg" alt="" style={{ width: "185px" }} />
-                      <h4 className="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
+                      <h4 className="mt-1 mb-5 pb-1">KHYBER HOSPITAL</h4>
                     </div>
 
                     <form>
@@ -76,7 +89,7 @@ export default function Login() {
 
                       <div className="text-center pt-1 mb-5 pb-1">
                         <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button"  onClick={handleLogin}>Log in</button>
-                        <a className="text-muted" href="#!">Forgot password?</a>
+                    
                       </div>
 
                       <div className="d-flex align-items-center justify-content-center pb-4">

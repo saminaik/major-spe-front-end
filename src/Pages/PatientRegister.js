@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
-
+import Swal from 'sweetalert2';
 function PatientRegistration() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -18,8 +18,20 @@ function PatientRegistration() {
     try {
       const response = await axios.post('http://localhost:8081/api/v1/auth/patient/register', formData);
       console.log(response.data);
-     
+      if(response.status===200){
+        Swal.fire(
+            'Registered!',
+            'Successfully!'
+        
+          )
+          window.history.back();
+     }
     } catch (error) {
+      Swal.fire(
+        'user already exist!'
+        
+    
+      )
       console.error(error);
     }
   };
@@ -46,10 +58,7 @@ function PatientRegistration() {
         <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
       </Form.Group>
 
-      <Form.Group controlId="registrationDate">
-        <Form.Label>Registration Date:</Form.Label>
-        <Form.Control type="datetime-local" name="registrationDate" value={formData.registrationDate} onChange={handleChange} />
-      </Form.Group>
+    
 
       <Form.Group controlId="password">
         <Form.Label>Password:</Form.Label>
