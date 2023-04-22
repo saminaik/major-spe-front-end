@@ -22,6 +22,7 @@ export default function PatientBookAppointment() {
       const result = await axios.get("http://localhost:8081/api/admin/doctors", { headers: {"Authorization" : `Bearer ${location.state.id.id.token}`} });
       const updatedUsers = result.data.map(user => ({ ...user, selectedDate: '' }));
       setUsers(updatedUsers);
+      
     } catch (error) {
    console.error(error);
     }
@@ -39,12 +40,13 @@ export default function PatientBookAppointment() {
     if (!user.selectedDate) {
       return;
     }
-    console.log(location.state);
+    console.log(location.state.id.id.id);
     // Send a POST request to the API with the required data
     axios.post('http://localhost:8081/api/patients/appointments', {
       doctorId: user.id,
       patient_id: location.state.id.id.id,
-      date: user.selectedDate
+      date: user.selectedDate,
+      patient_name: location.state.id.id.firstName
   }, {
       headers: {"Authorization" : `Bearer ${location.state.id.id.token}`}
   })
