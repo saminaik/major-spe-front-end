@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/saminaik/SPE-Major-Front-End.git', branch: 'main',
+                git url: 'https://github.com/saminaik/major-spe-front-end.git', branch: 'main',
                 credentialsId: 'githubID'
             }
         }
