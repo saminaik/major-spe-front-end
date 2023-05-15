@@ -41,7 +41,7 @@ export default function PatientBookAppointment() {
       return;
     }
     console.log(location.state.id.id.id);
-    // Send a POST request to the API with the required data
+    
     axios.post('http://localhost:8081/api/patients/appointments', {
       doctorId: user.id,
       patient_id: location.state.id.id.id,
