@@ -37,9 +37,9 @@ export default function PatientBookAppointment() {
 
   const handleAppointmentBooking = (user, patientId) => {
     // Check if the selectedDate is not empty
-//     if (!user.selectedDate) {
-//       return;
-//     }
+    if (!user.selectedDate) {
+      return;
+    }
 //     console.log(location.state.id.id.id);
     
     axios.post('http://localhost:8081/api/patients/appointments', {
